@@ -131,6 +131,7 @@ async function addInstruction(post){
 async function remove(post){
   try {
     await post.remove()
+    console.log(`removed https://old.reddit.com${post.permalink}`)
   } catch(e){
     console.log(e)
   }
