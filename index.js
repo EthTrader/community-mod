@@ -70,20 +70,19 @@ async function scanNew(){
   const newPosts = await reddit.getSubreddit("EthTrader").getNew()
   const comedy = newPosts.filter(isComedy)
   const needsInstruction = await Promise.filter(comedy, noInstruction)
-  console.log(`Scan new complete: ${comedy.length} Comedy posts, ${needsInstruction.length} need instructional comment`)
+  if(needsInstruction.length)
+    console.log(`Scan new complete: ${comedy.length} Comedy posts, ${needsInstruction.length} need instructional comment`)
   await Promise.all(needsInstruction.map(addInstruction))
 }
 
 async function scanHot(){
   const hotPosts = await reddit.getSubreddit("EthTrader").getHot()
   const comedy = hotPosts.filter(isComedy)
-  console.log(`Scan hot complete: ${comedy.length} Comedy posts` )
   const cutoff = comedy.filter(isOverCutoff)
-  console.log(`${cutoff.length} Comedy posts over cutoff` )
-  const cutoffHasInstruction = await Promise.filter(comedy, getInstruction)
+  const cutoffHasInstruction = await Promise.filter(cutoff, getInstruction)
   const toRemove = cutoffHasInstruction.filter(noTip)
   // const toRemove = cutoff.filter(noTip)
-  console.log(`${toRemove.length} Comedy posts to remove`)
+  console.log(`Scan hot complete: ${comedy.length} Comedy posts. ${cutoff.length} over cutoff, ${toRemove.length} to remove`)
   const removed = await Promise.all(toRemove.map(remove))
 }
 
@@ -97,9 +96,9 @@ function noTip(post){
 }
 
 function isOverCutoff(post){
-  const now = dayjs()
-  const cutoff = dayjs(post.created_utc*1000).add(3, 'h')
-  const isCutoff = dayjs(post.created_utc*1000).add(3, 'h').isBefore(dayjs())
+  const now = dayjs.utc()
+  const cutoff = dayjs.utc(post.created_utc*1000).add(3, 'h')
+  const isCutoff = dayjs.utc(post.created_utc*1000).add(3, 'h').isBefore(now)
   return isCutoff
 }
 
@@ -117,8 +116,7 @@ function isComedy(post){
 
 async function addInstruction(post){
   const cutoffUTC = dayjs.utc(post.created_utc*1000).add(3, 'h')
-  let message = `[Tip this post](https://www.donut.finance/tip/?contentId=${post.name}) by [${cutoffUTC.format("h:ma")} utc](https://www.donut.finance/time?utc=${cutoffUTC.format()}) to keep it visible.`
-  console.log(message)
+  let message = `[Tip this post](https://www.donut.finance/tip/?contentId=${post.name}) by [${cutoffUTC.format("h:mma")} utc](https://www.donut.finance/time?utc=${cutoffUTC.format()}) to keep it visible.`
   try {
     const reply = await post.reply(message)
     console.log(`added instruction to http://old.reddit.com${post.permalink}`)
