@@ -143,7 +143,16 @@
       "amount": "1000000000000000000",
       "token": "0x524B969793a64a602342d89BC2789D43a016B13A",
       "contentId": "t3_mbjutu"
+    },
+    {
+      "id": "0x6453a249df85c6b682e8a043550803cb6c40e319e8dee863d6cb2cdfe89df683",
+      "blockNumber": 15196860,
+      "from": "0xd2D117e6dbbfdD74D6b865ff859a4611bD29F3Ed",
+      "to": "0xf7927bf0230c7b0E82376ac944AeedC3EA8dFa25",
+      "amount": "69000000000000000000",
+      "token": "0x524B969793a64a602342d89BC2789D43a016B13A",
+      "contentId": ""
     }
   ],
-  "block": 15164747
+  "block": 15196860
 }

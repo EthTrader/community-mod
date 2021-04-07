@@ -12,6 +12,7 @@ const ERC20ABI = require("./abis/ERC20.json")
 const COMEDY_FLAIR_ID = "fd58a15c-e93f-11e5-a0f2-0e293b108187"
 const MINUTES_1 = 1*60*1000
 const MINUTES_10 = 10*60*1000
+const GRACE_HRS = 4
 const adapter = new FileAsync("db.json")
 
 const reddit = new snoowrap({
@@ -97,8 +98,8 @@ function noTip(post){
 
 function isOverCutoff(post){
   const now = dayjs.utc()
-  const cutoff = dayjs.utc(post.created_utc*1000).add(3, 'h')
-  const isCutoff = dayjs.utc(post.created_utc*1000).add(3, 'h').isBefore(now)
+  const cutoff = dayjs.utc(post.created_utc*1000).add(GRACE_HRS, 'h')
+  const isCutoff = dayjs.utc(post.created_utc*1000).add(GRACE_HRS, 'h').isBefore(now)
   return isCutoff
 }
 
@@ -115,14 +116,14 @@ function isComedy(post){
 }
 
 async function addInstruction(post){
-  const cutoffUTC = dayjs.utc(post.created_utc*1000).add(3, 'h')
-  let message = `[Tip this post](https://www.donut.finance/tip/?contentId=${post.name}) by [${cutoffUTC.format("h:mma")} utc](https://www.donut.finance/time?utc=${cutoffUTC.format()}) to keep it visible.`
+  const cutoffUTC = dayjs.utc(post.created_utc*1000).add(GRACE_HRS, 'h')
+  let message = `[Tip this post any amount of $DONUTs within ${GRACE_HRS}hrs](https://www.donut.finance/tip/?contentId=${post.name}) (by [${cutoffUTC.format("h:mma")} utc](https://www.donut.finance/time?utc=${cutoffUTC.format()})) to keep it visible.`
   try {
     const reply = await post.reply(message)
     console.log(`added instruction to http://old.reddit.com${post.permalink}`)
     await reply.distinguish({status: true, sticky: true})
   } catch(e){
-    console.log(e)
+    console.log(`error posting instruction for http://old.reddit.com${post.permalink}`)
   }
 }
 
@@ -131,7 +132,7 @@ async function remove(post){
     await post.remove()
     console.log(`removed https://old.reddit.com${post.permalink}`)
   } catch(e){
-    console.log(e)
+    console.log(`error removing http://old.reddit.com${post.permalink}`)
   }
 }
 
