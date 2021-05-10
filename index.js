@@ -11,8 +11,9 @@ const TippingABI = require("./abis/Tipping.json")
 const ERC20ABI = require("./abis/ERC20.json")
 const COMEDY_FLAIR_ID = "fd58a15c-e93f-11e5-a0f2-0e293b108187"
 const MINUTES_1 = 1*60*1000
+const MINUTES_5 = 5*60*1000
 const MINUTES_10 = 10*60*1000
-const GRACE_HRS = 4
+const GRACE_HRS = 6
 const adapter = new FileAsync("db.json")
 
 const reddit = new snoowrap({
@@ -26,32 +27,40 @@ const xdai = new providers.WebSocketProvider(process.env.WSS_PROVIDER_XDAI)
 const mainnet = new providers.WebSocketProvider(process.env.WSS_PROVIDER_MAINNET)
 
 const tipping = new Contract(process.env.TIPPING_ADDRESS_XDAI, TippingABI, xdai)
-let db
+let db, heartbeat
 
 main()
 
 async function main(){
-  db = (await low(adapter)).defaults({ tips: [], block: 14745448 })
+  db = (await low(adapter)).defaults({ tips: [], block: 14745448, instructions: [] })
   console.log(`last block: ${db.get("block").value()}`)
-  await monitor()
+  await syncNewTips()
   await scanNew()
   await scanHot()
-  setInterval(scanNew, MINUTES_1)
-  setInterval(scanHot, MINUTES_10)
+  // setTimeout(process.exit, MINUTES_5)
+  // setInterval(syncNewTips, MINUTES_10)
+  // setInterval(scanNew, MINUTES_1)
+  // setInterval(scanHot, MINUTES_10)
 }
 
-async function monitor(){
+function beat(block){
+  process.stdout.write(".")
+  heartbeat = Date.now()
+}
+
+async function syncNewTips(){
+  console.log("syncNewTips")
   const pastTips = await tipping.queryFilter("Tip", db.get("block").value()+1)
-  const tips = pastTips.map(marshalTip)
-  if(tips.length) {
-    await db.get("tips").push(...tips).write()
-    await db.set("block", tips[tips.length-1].blockNumber).write()
+  console.log(pastTips.length)
+  for (let i = 0; i < pastTips.length; i++) {
+    await save(pastTips[i])
   }
-  tipping.on("Tip", save)
 }
 
 async function save(tip){
-  await db.get("tips").push(marshalTip(tip)).write()
+  tip = marshalTip(tip)
+  console.log(`saving tip for ${tip.contentId} at ${tip.id}`)
+  await db.get("tips").push(tip).write()
   await db.set("block", tip.blockNumber).write()
 }
 
@@ -71,8 +80,7 @@ async function scanNew(){
   const newPosts = await reddit.getSubreddit("EthTrader").getNew()
   const comedy = newPosts.filter(isComedy)
   const needsInstruction = await Promise.filter(comedy, noInstruction)
-  if(needsInstruction.length)
-    console.log(`Scan new complete: ${comedy.length} Comedy posts, ${needsInstruction.length} need instructional comment`)
+  console.log(`Scan new complete: ${comedy.length} Comedy posts, ${needsInstruction.length} need instructional comment`)
   await Promise.all(needsInstruction.map(addInstruction))
 }
 
@@ -80,7 +88,7 @@ async function scanHot(){
   const hotPosts = await reddit.getSubreddit("EthTrader").getHot()
   const comedy = hotPosts.filter(isComedy)
   const cutoff = comedy.filter(isOverCutoff)
-  const cutoffHasInstruction = await Promise.filter(cutoff, getInstruction)
+  const cutoffHasInstruction = await Promise.filter(cutoff, getInstructionId)
   const toRemove = cutoffHasInstruction.filter(noTip)
   // const toRemove = cutoff.filter(noTip)
   console.log(`Scan hot complete: ${comedy.length} Comedy posts. ${cutoff.length} over cutoff, ${toRemove.length} to remove`)
@@ -121,6 +129,7 @@ async function addInstruction(post){
   try {
     const reply = await post.reply(message)
     console.log(`added instruction to http://old.reddit.com${post.permalink}`)
+    await db.get("instructions").push({postId: post.id, commentId: reply.id}).write()
     await reply.distinguish({status: true, sticky: true})
   } catch(e){
     console.log(`error posting instruction for http://old.reddit.com${post.permalink}`)
@@ -136,13 +145,20 @@ async function remove(post){
   }
 }
 
-async function getInstruction(post){
-  post = await post.expandReplies()
-  return post.comments.find(r=>r.author.name==="EthTraderCommunity")
+async function getInstructionId(post){
+  const instruction = await db.get("instructions").find({ postId: post.id }).value()
+  // console.log("getInstructionId", instruction)
+  return instruction ? instruction.commentId : null
+  // try {
+  //   post = await post.expandReplies()
+  //   return post.comments.find(r=>r.author.name==="EthTraderCommunity")
+  // } catch(e){
+  //   console.log(`error expanding replies`)
+  // }
 }
 
 async function noInstruction(post){
-  return !(await getInstruction(post))
+  return !(await getInstructionId(post))
 }
 
 async function handleBadFlair(post){

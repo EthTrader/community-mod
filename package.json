@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": ". ./.env && node index.js",
-    "start": ". ./.env && forever index.js"
+    "start": ". ./.env && node repeat.js"
   },
   "repository": "git@github.com:EthTrader/community-mod.git",
   "author": "Carl Larson <cslarson@gmail.com>",
