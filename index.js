@@ -6,6 +6,8 @@ const Promise = require("bluebird")
 const dayjs = require('dayjs')
 dayjs.extend(require('dayjs/plugin/utc'))
 const low = require("lowdb")
+const fetch = require("node-fetch")
+fetch.Promise = Promise
 const FileAsync = require("lowdb/adapters/FileAsync")
 const TippingABI = require("./abis/Tipping.json")
 const ERC20ABI = require("./abis/ERC20.json")
@@ -27,11 +29,12 @@ const xdai = new providers.WebSocketProvider(process.env.WSS_PROVIDER_XDAI)
 const mainnet = new providers.WebSocketProvider(process.env.WSS_PROVIDER_MAINNET)
 
 const tipping = new Contract(process.env.TIPPING_ADDRESS_XDAI, TippingABI, xdai)
-let db, heartbeat
+let db, heartbeat, users
 
 main()
 
 async function main(){
+  users = await fetch("https://ethtrader.github.io/donut.distribution/users.json").then(res=>res.json())
   db = (await low(adapter)).defaults({ tips: [], block: 14745448, instructions: [] })
   console.log(`last block: ${db.get("block").value()}`)
   await syncNewTips()
@@ -89,8 +92,7 @@ async function scanHot(){
   const comedy = hotPosts.filter(isComedy)
   const cutoff = comedy.filter(isOverCutoff)
   const cutoffHasInstruction = await Promise.filter(cutoff, getInstructionId)
-  const toRemove = cutoffHasInstruction.filter(noTip)
-  // const toRemove = cutoff.filter(noTip)
+  const toRemove = cutoffHasInstruction.filter(noQualifiedTip)
   console.log(`Scan hot complete: ${comedy.length} Comedy posts. ${cutoff.length} over cutoff, ${toRemove.length} to remove`)
   const removed = await Promise.all(toRemove.map(remove))
 }
@@ -100,8 +102,15 @@ function getTips(post){
   return tips
 }
 
-function noTip(post){
-  return !getTips(post).length
+function noQualifiedTip(post){
+  let tips = getTips(post)
+  if(!tips.length) return true
+  // is tipper registered and not same as author
+  tips = tips.filter((t)=>{
+    const user = users.find((u)=>u.address.toLowerCase()===t.from.toLowerCase())
+    return user && user.username !== (post.author && post.author.name)
+  })
+  return !tips.length
 }
 
 function isOverCutoff(post){
