@@ -1,144 +1,114 @@
-const { ethers } = require("ethers")
-const { BigNumber, utils, constants, providers, Contract } = ethers
-const { formatUnits, Fragment, Interface, parseBytes32String } = utils
-const snoowrap = require("snoowrap")
-const Promise = require("bluebird")
-const dayjs = require('dayjs')
-dayjs.extend(require('dayjs/plugin/utc'))
-const low = require("lowdb")
-const fetch = require("node-fetch")
-fetch.Promise = Promise
-const FileAsync = require("lowdb/adapters/FileAsync")
-const TippingABI = require("./abis/Tipping.json")
-const ERC20ABI = require("./abis/ERC20.json")
-const COMEDY_FLAIR_ID = "fd58a15c-e93f-11e5-a0f2-0e293b108187"
-const MINUTES_1 = 1*60*1000
-const MINUTES_5 = 5*60*1000
-const MINUTES_10 = 10*60*1000
-const GRACE_HRS = 6
-const adapter = new FileAsync("db.json")
+import Promise from "bluebird"
+import { getUsers, setupReddit, setupDb, setupContracts, marshalTip, formatAmount, badFlair, isComedy, isMedia, isOverCutoff, instructionMessage } from './utils.js'
 
-const reddit = new snoowrap({
-  userAgent: "EthTrader tipping 1.0 by u/EthTraderCommunity",
-  clientId: process.env.REDDIT_SCRIPT_CLIENT_ID,
-  clientSecret: process.env.REDDIT_SCRIPT_CLIENT_SECRET,
-  username: process.env.REDDIT_USERNAME,
-  password: process.env.REDDIT_PASSWORD
-})
-const xdai = new providers.WebSocketProvider(process.env.WSS_PROVIDER_XDAI)
-const mainnet = new providers.WebSocketProvider(process.env.WSS_PROVIDER_MAINNET)
+const { MINUTES_1, MINUTES_5, MINUTES_10 } = process.env
 
-const tipping = new Contract(process.env.TIPPING_ADDRESS_XDAI, TippingABI, xdai)
-let db, heartbeat, users
+const { tipping } = setupContracts()
+const reddit = setupReddit()
+let db, users
 
 main()
 
 async function main(){
-  users = await fetch("https://ethtrader.github.io/donut.distribution/users.json").then(res=>res.json())
-  db = (await low(adapter)).defaults({ tips: [], block: 14745448, instructions: [] })
-  console.log(`last block: ${db.get("block").value()}`)
-  await syncNewTips()
+  users = await getUsers()
+  db = await setupDb()
+
+  console.log(`last block: ${db.data.block}`)
+  await syncTips()
   await scanNew()
   await scanHot()
-  // setTimeout(process.exit, MINUTES_5)
-  // setInterval(syncNewTips, MINUTES_10)
-  // setInterval(scanNew, MINUTES_1)
-  // setInterval(scanHot, MINUTES_10)
-}
-
-function beat(block){
-  process.stdout.write(".")
-  heartbeat = Date.now()
-}
-
-async function syncNewTips(){
-  console.log("syncNewTips")
-  const pastTips = await tipping.queryFilter("Tip", db.get("block").value()+1)
-  console.log(pastTips.length)
-  for (let i = 0; i < pastTips.length; i++) {
-    await save(pastTips[i])
-  }
-}
-
-async function save(tip){
-  tip = marshalTip(tip)
-  console.log(`saving tip for ${tip.contentId} at ${tip.id}`)
-  await db.get("tips").push(tip).write()
-  await db.set("block", tip.blockNumber).write()
-}
-
-function marshalTip({blockNumber, transactionHash, args}){
-  return {
-    id: transactionHash,
-    blockNumber,
-    from: args.from,
-    to: args.to,
-    amount: args.amount.toString(),
-    token: args.token,
-    contentId: parseBytes32String(args.contentId)
-  }
+  setInterval(async ()=>{
+    await scanNew()
+    await scanHot()
+  }, MINUTES_5)
 }
 
 async function scanNew(){
   const newPosts = await reddit.getSubreddit("EthTrader").getNew()
   const comedy = newPosts.filter(isComedy)
-  const needsInstruction = await Promise.filter(comedy, noInstruction)
-  console.log(`Scan new complete: ${comedy.length} Comedy posts, ${needsInstruction.length} need instructional comment`)
+  const media = newPosts.filter(isMedia)
+  const needsInstruction = await Promise.filter(comedy.concat(media), noInstruction)
+  console.log(`Scan new complete: ${comedy.length} Comedy, ${media.length} Media, ${needsInstruction.length} need instruction`)
   await Promise.all(needsInstruction.map(addInstruction))
 }
 
 async function scanHot(){
   const hotPosts = await reddit.getSubreddit("EthTrader").getHot()
   const comedy = hotPosts.filter(isComedy)
-  const cutoff = comedy.filter(isOverCutoff)
+  const cutoffComedy = comedy.filter(isOverCutoff)
+  const media = hotPosts.filter(isMedia)
+  const cutoffMedia = media.filter(isOverCutoff)
+  const cutoff = cutoffComedy.concat(cutoffMedia)
   const cutoffHasInstruction = await Promise.filter(cutoff, getInstructionId)
   const toRemove = cutoffHasInstruction.filter(noQualifiedTip)
-  console.log(`Scan hot complete: ${comedy.length} Comedy posts. ${cutoff.length} over cutoff, ${toRemove.length} to remove`)
+  console.log(`Scan hot complete: ${comedy.length} Comedy. ${media.length} Media. ${cutoff.length} over cutoff, ${toRemove.length} to remove`)
   const removed = await Promise.all(toRemove.map(remove))
 }
 
-function getTips(post){
-  let tips = db.get('tips').filter({ contentId: post.name }).value()
-  return tips
+async function syncTips(){
+  console.log("syncing tips")
+  const pastTips = await tipping.queryFilter("Tip", db.data.block+1)
+  await Promise.all(pastTips.map(saveTip))
+  tipping.on("Tip", (from,to,amt,token,cid, ev)=>saveTip(ev))
 }
 
-function noQualifiedTip(post){
-  let tips = getTips(post)
-  if(!tips.length) return true
-  // is tipper registered and not same as author
-  tips = tips.filter((t)=>{
-    const user = users.find((u)=>u.address.toLowerCase()===t.from.toLowerCase())
-    return user && user.username !== (post.author && post.author.name)
-  })
-  return !tips.length
+async function saveTip(ev){
+  const tip = marshalTip(ev)
+  await notify(tip)
+
+  db.data.tips.push(tip)
+  db.data.block = tip.blockNumber
+  await db.write()
 }
 
-function isOverCutoff(post){
-  const now = dayjs.utc()
-  const cutoff = dayjs.utc(post.created_utc*1000).add(GRACE_HRS, 'h')
-  const isCutoff = dayjs.utc(post.created_utc*1000).add(GRACE_HRS, 'h').isBefore(now)
-  return isCutoff
-}
-
-function isComedy(post){
-  if(post.link_flair_template_id === COMEDY_FLAIR_ID) {
-    if(post.link_flair_text && post.link_flair_text.toLowerCase()==="comedy")
-      return true
-    handleBadFlair(post)
+async function notify({id, blockNumber, from, to, amount, token, contentId}){
+  let target, message
+  switch (contentId.substr(0,3)){
+    case "t1_":         // is comment
+      target = await reddit.getComment(contentId)
+      message = await getMessage(from, amount, id, token)
+      break
+    case "t3_":         // is post
+      target = await reddit.getSubmission(contentId)
+      message = await getMessage(from, amount, id, token)
+      break
+    default:
+      let user = users.find(u=>u.address.toLowerCase()===from.toLowerCase())
+      if(user){
+        message = await getMessage(from, amount, id, token)
+        await reddit.composeMessage({to: user.username, subject: "You received a tip!", text: message})
+      }
+      console.log(`no content id, recipient is ${user ? user.username : "unknown"}`)
+      break
   }
-  if(post.link_flair_text && post.link_flair_text.toLowerCase()==="comedy"){
-    handleBadFlair(post)
+  if(target){
+    console.log(message)
+    await target.reply(message)
   }
-  return false
+}
+
+async function getMessage(from, amount, transactionHash, tokenAddress){
+  let sender = `${from.slice(0,8)}...`
+  let user = users.find(u=>u.address.toLowerCase()===from.toLowerCase())
+  if(user)
+    sender = `u/${user.username}`
+
+  let txUrl = `${process.env.BLOCK_EXPLORER_TX_PATH}${transactionHash}`
+  return `${sender} [tipped](${txUrl}) you ${await formatAmount(tokenAddress, amount)}!`
+}
+
+async function getInstructionId(post){
+  const instruction = await db.chain.get("instructions").find({ postId: post.id }).value()
+  return instruction ? instruction.commentId : null
 }
 
 async function addInstruction(post){
-  const cutoffUTC = dayjs.utc(post.created_utc*1000).add(GRACE_HRS, 'h')
-  let message = `[Tip this post any amount of $DONUTs within ${GRACE_HRS}hrs](https://www.donut.finance/tip/?contentId=${post.name}) (by [${cutoffUTC.format("h:mma")} utc](https://www.donut.finance/time?utc=${cutoffUTC.format()})) to keep it visible.`
+  const message = instructionMessage(post)
   try {
     const reply = await post.reply(message)
     console.log(`added instruction to http://old.reddit.com${post.permalink}`)
-    await db.get("instructions").push({postId: post.id, commentId: reply.id}).write()
+    db.data.instructions.push({postId: post.id, commentId: reply.id})
+    await db.write()
     await reply.distinguish({status: true, sticky: true})
   } catch(e){
     console.log(`error posting instruction for http://old.reddit.com${post.permalink}`)
@@ -154,22 +124,22 @@ async function remove(post){
   }
 }
 
-async function getInstructionId(post){
-  const instruction = await db.get("instructions").find({ postId: post.id }).value()
-  // console.log("getInstructionId", instruction)
-  return instruction ? instruction.commentId : null
-  // try {
-  //   post = await post.expandReplies()
-  //   return post.comments.find(r=>r.author.name==="EthTraderCommunity")
-  // } catch(e){
-  //   console.log(`error expanding replies`)
-  // }
-}
-
 async function noInstruction(post){
   return !(await getInstructionId(post))
 }
 
-async function handleBadFlair(post){
-  console.log(`${post.id} has bad flair`)
+function getTips(post){
+  let tips = db.chain.get('tips').filter({ contentId: post.name }).value()
+  return tips
+}
+
+function noQualifiedTip(post){
+  let tips = getTips(post)
+  if(!tips.length) return true
+  // is tipper registered and not same as author
+  tips = tips.filter((t)=>{
+    const user = users.find((u)=>u.address.toLowerCase()===t.from.toLowerCase())
+    return user && user.username !== (post.author && post.author.name)
+  })
+  return !tips.length
 }

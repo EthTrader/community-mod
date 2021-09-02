@@ -1,4 +1,5 @@
-const { spawn } = require('child_process');
+import { spawn } from 'child_process';
+
 const MINUTES_5 = 5*60*1000
 let count = 0
 

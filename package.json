@@ -4,17 +4,17 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": ". ./.env && node index.js",
-    "start": ". ./.env && node repeat.js"
+    "start": ". ./.env && node index.js"
   },
   "repository": "git@github.com:EthTrader/community-mod.git",
   "author": "Carl Larson <cslarson@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "dayjs": "^1.10.4",
+    "dayjs": "^1.10.6",
     "ethers": "^5.0.32",
-    "lowdb": "^1.0.0",
+    "lowdb": "^2.1.0",
     "node-fetch": "^2.6.1",
     "snoowrap": "^1.22.0"
-  }
+  },
+  "type": "module"
 }
