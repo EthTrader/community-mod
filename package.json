@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": ". ./.env && node index.js"
+    "start": ". ./.env && node index.js",
+    "tips": ". ./.env && node tips.js"
   },
   "repository": "git@github.com:EthTrader/community-mod.git",
   "author": "Carl Larson <cslarson@gmail.com>",
