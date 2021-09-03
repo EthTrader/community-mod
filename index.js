@@ -25,10 +25,12 @@ async function main(){
 
 async function scanNew(){
   const newPosts = await reddit.getSubreddit("EthTrader").getNew()
-  const comedy = newPosts.filter(isComedy)
-  const media = newPosts.filter(isMedia)
-  const needsInstruction = await Promise.filter(comedy.concat(media), noInstruction)
-  console.log(`Scan new complete: ${comedy.length} Comedy, ${media.length} Media, ${needsInstruction.length} need instruction`)
+  // const comedy = newPosts.filter(isComedy)
+  // const media = newPosts.filter(isMedia)
+  // const needsInstruction = await Promise.filter(comedy.concat(media), noInstruction)
+  const needsInstruction = await Promise.filter(newPosts, noInstruction)
+  // console.log(`Scan new complete: ${comedy.length} Comedy, ${media.length} Media, ${needsInstruction.length} need instruction`)
+  console.log(`Scan new complete: ${newPosts.length} new, ${needsInstruction.length} need instruction`)
   await Promise.all(needsInstruction.map(addInstruction))
 }
 

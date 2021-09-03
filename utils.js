@@ -91,8 +91,12 @@ function isOverCutoff(post){
 }
 
 function instructionMessage(post){
-  const cutoffUTC = dayjs.utc(post.created_utc*1000).add(process.env.GRACE_HRS, 'h')
-  return `[Tip this post any amount of $DONUTs within ${process.env.GRACE_HRS}hrs](https://www.donut.finance/tip/?contentId=${post.name}) (by [${cutoffUTC.format("h:mma")} utc](https://www.donut.finance/time?utc=${cutoffUTC.format()})) to keep it visible.`
+  let message = `[Tip this post](https://www.donut.finance/tip/?contentId=${post.name}).`
+  if(isComedy(post) || isMedia(post)){
+    const cutoffUTC = dayjs.utc(post.created_utc*1000).add(process.env.GRACE_HRS, 'h')
+    message = `[Tip this post any amount of $DONUTs within ${process.env.GRACE_HRS}hrs](https://www.donut.finance/tip/?contentId=${post.name}) (by [${cutoffUTC.format("h:mma")} utc](https://www.donut.finance/time?utc=${cutoffUTC.format()})) to keep it visible.`
+  }
+  return message
 }
 
 export { getUsers, setupContracts, setupReddit, setupDb, marshalTip, formatAmount, badFlair, isComedy, isMedia, isOverCutoff, instructionMessage }
