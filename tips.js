@@ -18,6 +18,8 @@ async function main(){
   tips = await Promise.map(tips, addPost)
   tips = await Promise.filter(tips, isDonutUpvote)
 
+  // TODO - check banned/suspended accounts
+
   console.log(tips.length)
   let countByAddress = _.countBy(tips, (t)=>t.from.toLowerCase())
   let countByName = _.countBy(tips, (t)=>t.tipper.username)

@@ -3,6 +3,8 @@ import { getUsers, setupReddit, setupDb, setupContracts, marshalTip, formatAmoun
 
 const { MINUTES_1, MINUTES_5, MINUTES_10 } = process.env
 
+const MAX_POSTS = 4
+
 const { tipping } = setupContracts()
 const reddit = setupReddit()
 let db, users
@@ -36,14 +38,16 @@ async function scanNew(){
 
 async function scanHot(){
   const hotPosts = await reddit.getSubreddit("EthTrader").getHot()
+
   const comedy = hotPosts.filter(isComedy)
-  const cutoffComedy = comedy.filter(isOverCutoff)
+  const toRemoveComedy = comedy.filter(isOverCutoff).map(attachQuadScore).sort(sortByQuadScore).slice(MAX_POSTS)
   const media = hotPosts.filter(isMedia)
-  const cutoffMedia = media.filter(isOverCutoff)
-  const cutoff = cutoffComedy.concat(cutoffMedia)
-  const cutoffHasInstruction = await Promise.filter(cutoff, getInstructionId)
-  const toRemove = cutoffHasInstruction.filter(noQualifiedTip)
-  console.log(`Scan hot complete: ${comedy.length} Comedy. ${media.length} Media. ${cutoff.length} over cutoff, ${toRemove.length} to remove`)
+  const toRemoveMedia = media.filter(isOverCutoff).map(attachQuadScore).sort(sortByQuadScore).slice(MAX_POSTS)
+
+  const toRemove = toRemoveComedy.concat(toRemoveMedia)
+
+  // const toRemove = cutoffHasInstruction.filter(noQualifiedTip)
+  console.log(`Scan hot complete: ${toRemove.length} to remove`)
   const removed = await Promise.all(toRemove.map(remove))
 }
 
@@ -61,6 +65,24 @@ async function saveTip(ev){
   db.data.tips.push(tip)
   db.data.block = tip.blockNumber
   await db.write()
+}
+
+function attachQuadScore(post){
+  post.quadScore = 0
+  let tips = getTips(post)
+  let tippers = {}
+  tips.forEach(t=>{
+    let tipper = users.find(u=>u.address.toLowerCase()===t.from.toLowerCase())
+    if(tipper && !tippers[tipper.username] && tipper.username !== (post.author && post.author.name)) {
+      tippers[tipper.username] = true
+      post.quadScore += Math.sqrt(tipper.weight)
+    }
+  })
+  return post
+}
+
+function sortByQuadScore(first, second){
+  return second.quadScore - first.quadScore
 }
 
 async function notify({id, blockNumber, from, to, amount, token, contentId}){
