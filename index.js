@@ -1,9 +1,9 @@
 import Promise from "bluebird"
-import { getUsers, setupReddit, setupDb, setupContracts, marshalTip, formatAmount, badFlair, isComedy, isMedia, isOverCutoff, instructionMessage } from './utils.js'
+import { wait, getUsers, setupReddit, setupDb, setupContracts, marshalTip, formatAmount, badFlair, isComedy, isMedia, isOverCutoff, instructionMessage, updateGraceHrs } from './utils.js'
 
 const { MINUTES_1, MINUTES_5, MINUTES_10 } = process.env
 
-const MAX_POSTS = 4
+const MAX_CUTOFF_POSTS = 3
 
 const { tipping } = setupContracts()
 const reddit = setupReddit()
@@ -27,11 +27,7 @@ async function main(){
 
 async function scanNew(){
   const newPosts = await reddit.getSubreddit("EthTrader").getNew()
-  // const comedy = newPosts.filter(isComedy)
-  // const media = newPosts.filter(isMedia)
-  // const needsInstruction = await Promise.filter(comedy.concat(media), noInstruction)
   const needsInstruction = await Promise.filter(newPosts, noInstruction)
-  // console.log(`Scan new complete: ${comedy.length} Comedy, ${media.length} Media, ${needsInstruction.length} need instruction`)
   console.log(`Scan new complete: ${newPosts.length} new, ${needsInstruction.length} need instruction`)
   await Promise.all(needsInstruction.map(addInstruction))
 }
@@ -40,15 +36,20 @@ async function scanHot(){
   const hotPosts = await reddit.getSubreddit("EthTrader").getHot()
 
   const comedy = hotPosts.filter(isComedy)
-  const toRemoveComedy = comedy.filter(isOverCutoff).map(attachQuadScore).sort(sortByQuadScore).slice(MAX_POSTS)
+  let changedComedyHrs = updateGraceHrs(comedy, "comedy")
+  if(changedComedyHrs) await Promise.mapSeries(comedy, updateInstruction)
+  const toRemoveComedy = comedy.filter(isOverCutoff).map(attachQuadScore).sort(sortByQuadScore).slice(MAX_CUTOFF_POSTS)
   const media = hotPosts.filter(isMedia)
-  const toRemoveMedia = media.filter(isOverCutoff).map(attachQuadScore).sort(sortByQuadScore).slice(MAX_POSTS)
+  let changedMediaHrs = updateGraceHrs(media, "media")
+  if(changedMediaHrs) await Promise.mapSeries(media, updateInstruction)
+  const toRemoveMedia = media.filter(isOverCutoff).map(attachQuadScore).sort(sortByQuadScore).slice(MAX_CUTOFF_POSTS)
 
   const toRemove = toRemoveComedy.concat(toRemoveMedia)
 
   // const toRemove = cutoffHasInstruction.filter(noQualifiedTip)
   console.log(`Scan hot complete: ${toRemove.length} to remove`)
-  const removed = await Promise.all(toRemove.map(remove))
+  // const removed = await Promise.all(toRemove.map(remove))
+  await Promise.mapSeries(toRemove, remove)
 }
 
 async function syncTips(){
@@ -134,8 +135,24 @@ async function addInstruction(post){
     db.data.instructions.push({postId: post.id, commentId: reply.id})
     await db.write()
     await reply.distinguish({status: true, sticky: true})
+    // await wait(1000)
   } catch(e){
     console.log(`error posting instruction for http://old.reddit.com${post.permalink}`)
+  }
+}
+
+async function updateInstruction(post){
+  const message = instructionMessage(post)
+  let instructionId = await getInstructionId(post)
+  try {
+    const instruction = await reddit.getComment(instructionId).fetch()
+    if(instruction.body !== message){
+      await instruction.edit(message)
+      console.log(`updated instruction http://old.reddit.com${post.permalink}${instructionId}`)
+      await wait(4000)
+    }
+  } catch(e){
+    console.log(`error updating instruction http://old.reddit.com${post.permalink}${instructionId}:\n${e.toString().slice(0, 50)}`)
   }
 }
 

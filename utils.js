@@ -12,6 +12,11 @@ import { TippingABI, ERC20ABI } from './abis/index.js';
 dayjs.extend(utc)
 fetch.Promise = Promise
 
+let graceHrs = {
+  comedy: process.env.GRACE_HRS,
+  media: process.env.GRACE_HRS
+}
+
 async function getUsers(){
   return await fetch("https://ethtrader.github.io/donut.distribution/users.json").then(res=>res.json())
 }
@@ -85,18 +90,37 @@ async function badFlair(post){
 
 function isOverCutoff(post){
   const now = dayjs.utc()
-  const cutoff = dayjs.utc(post.created_utc*1000).add(process.env.GRACE_HRS, 'h')
-  const isCutoff = dayjs.utc(post.created_utc*1000).add(process.env.GRACE_HRS, 'h').isBefore(now)
+  const graceHrs = getGraceHrs(post)
+  const cutoff = dayjs.utc(post.created_utc*1000).add(graceHrs, 'h')
+  const isCutoff = dayjs.utc(post.created_utc*1000).add(graceHrs, 'h').isBefore(now)
   return isCutoff
 }
 
 function instructionMessage(post){
   let message = `[Tip this post](https://www.donut.finance/tip/?contentId=${post.name}).`
   if(isComedy(post) || isMedia(post)){
-    const cutoffUTC = dayjs.utc(post.created_utc*1000).add(process.env.GRACE_HRS, 'h')
-    message = `[Tip this post any amount of $DONUTs within ${process.env.GRACE_HRS}hrs](https://www.donut.finance/tip/?contentId=${post.name}) (by [${cutoffUTC.format("h:mma")} utc](https://www.donut.finance/time?utc=${cutoffUTC.format()})) to keep it visible.`
+    const graceHrs = getGraceHrs(post)
+    const cutoffUTC = dayjs.utc(post.created_utc*1000).add(graceHrs, 'h')
+    message = `[Tip this post any amount of $DONUTs within ${graceHrs}hrs](https://www.donut.finance/tip/?contentId=${post.name}) (by [${cutoffUTC.format("h:mma")} utc](https://www.donut.finance/time?utc=${cutoffUTC.format()})) to keep it visible.`
   }
   return message
 }
 
-export { getUsers, setupContracts, setupReddit, setupDb, marshalTip, formatAmount, badFlair, isComedy, isMedia, isOverCutoff, instructionMessage }
+function getGraceHrs(post){
+  if(isComedy(post)) return graceHrs["comedy"]
+  if(isMedia(post)) return graceHrs["media"]
+}
+
+function updateGraceHrs(posts, type){
+  console.log(posts.length)
+  let oldGraceHrs = graceHrs[type]
+  let newGraceHrs = 8 - posts.length
+  if(newGraceHrs < 1) newGraceHrs = 1
+  console.log(`change ${type} graceHrs from ${oldGraceHrs} to ${newGraceHrs}`)
+  graceHrs[type] = newGraceHrs
+  return graceHrs[type] !== oldGraceHrs
+}
+
+const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+export { wait, getUsers, setupContracts, setupReddit, setupDb, marshalTip, formatAmount, badFlair, isComedy, isMedia, isOverCutoff, instructionMessage, updateGraceHrs }
