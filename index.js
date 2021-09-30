@@ -23,6 +23,9 @@ async function main(){
     await scanNew()
     await scanHot()
   }, MINUTES_5)
+  setInterval(async ()=>{
+    users = await getUsers()
+  }, 24*60*60*1000)
 }
 
 async function scanNew(){

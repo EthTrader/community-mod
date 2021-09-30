@@ -1,11 +1,23 @@
 import Promise from "bluebird"
 import _ from "lodash"
 import { getUsers, setupDb, setupContracts, setupReddit } from './utils.js'
+import fs from "fs"
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const GOV_WEIGHT_THRESHOLD=500
-const START_BLOCK=17000000
-const END_BLOCK=18000000
+const START_BLOCK=17876913
+const END_BLOCK=18334566
+const label = "round_102"
+
 let db, users, reddit
+
+const donutUpvoterTotalReward = 340000
+const quadRankTotalReward = 680000
+
+const out = {label, startBlock: START_BLOCK, endBlock: END_BLOCK, govWeightThreshold: GOV_WEIGHT_THRESHOLD, donutUpvoterTotalReward, donutUpvoterRewards:{}, quadRankTotalReward, quadRankRewards:{}}
 
 main()
 
@@ -25,16 +37,25 @@ async function main(){
   let countByName = _.countBy(tips, (t)=>t.tipper.username)
   // console.log(countByAddress)
   // console.log(countByName)
+  for (const name in countByName){
+    out.donutUpvoterRewards[name] = Math.round(countByName[name]*donutUpvoterTotalReward/tips.length)
+  }
   let countByContent = _.countBy(tips, (t)=>t.contentId)
   // console.log(countByContent)
   let groupByContent = _.groupBy(tips, (t)=>t.contentId)
-  let quadScore = {}
+  let quadScoreTotal = 0
+  let quadScores = {}
   for (const contentId in groupByContent){
     let score = groupByContent[contentId].reduce((res, {tipper})=>{res += Math.sqrt(tipper.weight); return res}, 0)
     const author = groupByContent[contentId][0].post.author.name
-    quadScore[author] = quadScore[author] ? quadScore[author] + score : score
+    quadScores[author] = quadScores[author] ? quadScores[author] + score : score
+    quadScoreTotal += score
   }
-  console.log(quadScore)
+  for (const author in quadScores){
+    out.quadRankRewards[author] = Math.round(quadScores[author]*quadRankTotalReward/quadScoreTotal)
+  }
+  console.log(out)
+  fs.writeFileSync( `${__dirname}/out/donut_upvote_rewards_${label}.json`, JSON.stringify(out))
 }
 
 function inRange({blockNumber}){
