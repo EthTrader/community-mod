@@ -1,6 +1,6 @@
 import Promise from "bluebird"
 import _ from "lodash"
-import { getUsers, setupDb, setupContracts, setupReddit } from './utils.js'
+import { wait, getUsers, setupDb, setupContracts, setupReddit } from './utils.js'
 import fs from "fs"
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -27,34 +27,51 @@ async function main(){
   reddit = setupReddit()
 
   let tips = db.chain.get("tips").filter(inRange).filter(isPost).map(addTipper).value()
-  tips = await Promise.map(tips, addPost)
-  tips = await Promise.filter(tips, isDonutUpvote)
+  tips = await Promise.mapSeries(tips, addPost)
+  tips = tips.filter(isDonutUpvote)
 
   // TODO - check banned/suspended accounts
 
-  console.log(tips.length)
+  console.log(`tips: ${tips.length}`)
   let countByAddress = _.countBy(tips, (t)=>t.from.toLowerCase())
   let countByName = _.countBy(tips, (t)=>t.tipper.username)
-  // console.log(countByAddress)
-  // console.log(countByName)
+
+  let eligibleTipCount = tips.length
+
+  const names = Object.keys(countByName)
+  tips.forEach(t=>{
+    const name = t.post.author.name
+    if(!names.includes(name)) names.push(name)
+  })
+  console.log(`names: ${names.length}`)
+  const ineligbleNames = await Promise.mapSeries(names, invalidAccount)
+  console.log(`ineligble names: ${ineligbleNames.join(', ')}`)
+
   for (const name in countByName){
-    out.donutUpvoterRewards[name] = Math.round(countByName[name]*donutUpvoterTotalReward/tips.length)
+    if(ineligbleNames.includes(name)) {
+      eligibleTipCount -= countByName[name]
+      delete countByName[name]
+    }
   }
-  let countByContent = _.countBy(tips, (t)=>t.contentId)
-  // console.log(countByContent)
+  for (const name in countByName){
+    out.donutUpvoterRewards[name] = Math.round(countByName[name]*donutUpvoterTotalReward/eligibleTipCount)
+  }
+
   let groupByContent = _.groupBy(tips, (t)=>t.contentId)
   let quadScoreTotal = 0
   let quadScores = {}
   for (const contentId in groupByContent){
-    let score = groupByContent[contentId].reduce((res, {tipper})=>{res += Math.sqrt(tipper.weight); return res}, 0)
     const author = groupByContent[contentId][0].post.author.name
+    if(ineligbleNames.includes(author)) continue
+
+    let score = groupByContent[contentId].reduce((res, {tipper})=>{res += Math.sqrt(tipper.weight); return res}, 0)
     quadScores[author] = quadScores[author] ? quadScores[author] + score : score
     quadScoreTotal += score
   }
   for (const author in quadScores){
     out.quadRankRewards[author] = Math.round(quadScores[author]*quadRankTotalReward/quadScoreTotal)
   }
-  console.log(out)
+  // console.log(out)
   fs.writeFileSync( `${__dirname}/out/donut_upvote_rewards_${label}.json`, JSON.stringify(out))
   out.donutUpvoterRewards = Object.keys(out.donutUpvoterRewards).map(key => ({ username: key, points: out.donutUpvoterRewards[key] }))
   out.quadRankRewards = Object.keys(out.quadRankRewards).map(key => ({ username: key, points: out.quadRankRewards[key] }))
@@ -67,6 +84,20 @@ function inRange({blockNumber}){
   return blockNumber > START_BLOCK && blockNumber < END_BLOCK
 }
 
+async function invalidAccount(name){
+  await wait(1500)
+  if(name == "[deleted]") return name
+  let user
+  try {
+    console.log(`checking ${name}`)
+    user = await reddit.getUser(name).fetch()
+  } catch(e){
+    console.log(e)
+  }
+  if(!user || user.is_suspended) return name
+  else return null
+}
+
 function isPost({contentId}){
   return contentId.substr(0,3) === "t3_"
 }
@@ -77,11 +108,13 @@ function addTipper(tip){
 }
 
 async function addPost(tip){
+  await wait(1500)
+  console.log(tip.contentId)
   tip.post = await reddit.getSubmission(tip.contentId).fetch()
   return tip
 }
 
-async function isDonutUpvote({to, contentId, tipper, post}){
+function isDonutUpvote({to, contentId, tipper, post}){
   if(!tipper) return false
   if(tipper.username == post.author.name) return false
   return parseInt(tipper.weight) >= GOV_WEIGHT_THRESHOLD

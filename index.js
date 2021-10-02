@@ -32,7 +32,8 @@ async function scanNew(){
   const newPosts = await reddit.getSubreddit("EthTrader").getNew()
   const needsInstruction = await Promise.filter(newPosts, noInstruction)
   console.log(`Scan new complete: ${newPosts.length} new, ${needsInstruction.length} need instruction`)
-  await Promise.all(needsInstruction.map(addInstruction))
+  // await Promise.all(needsInstruction.map(addInstruction))
+  await Promise.mapSeries(needsInstruction, addInstruction)
 }
 
 async function scanHot(){
@@ -58,7 +59,8 @@ async function scanHot(){
 async function syncTips(){
   console.log("syncing tips")
   const pastTips = await tipping.queryFilter("Tip", db.data.block+1)
-  await Promise.all(pastTips.map(saveTip))
+  // await Promise.all(pastTips.map(saveTip))
+  await Promise.mapSeries(pastTips, saveTip)
   tipping.on("Tip", (from,to,amt,token,cid, ev)=>saveTip(ev))
 }
 
@@ -69,6 +71,7 @@ async function saveTip(ev){
   db.data.tips.push(tip)
   db.data.block = tip.blockNumber
   await db.write()
+  await wait(2000)
 }
 
 function attachQuadScore(post){
@@ -138,7 +141,8 @@ async function addInstruction(post){
     db.data.instructions.push({postId: post.id, commentId: reply.id})
     await db.write()
     await reply.distinguish({status: true, sticky: true})
-    // await wait(1000)
+    await wait(2000)
+    return reply.id
   } catch(e){
     console.log(`error posting instruction for http://old.reddit.com${post.permalink}`)
   }
@@ -147,6 +151,7 @@ async function addInstruction(post){
 async function updateInstruction(post){
   const message = instructionMessage(post)
   let instructionId = await getInstructionId(post)
+  if(!instructionId) instructionId = await addInstruction(post)
   try {
     const instruction = await reddit.getComment(instructionId).fetch()
     if(instruction.body !== message){
