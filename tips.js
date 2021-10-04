@@ -17,7 +17,7 @@ let db, users, reddit
 const donutUpvoterTotalReward = 340000
 const quadRankTotalReward = 680000
 
-const out = {label, startBlock: START_BLOCK, endBlock: END_BLOCK, govWeightThreshold: GOV_WEIGHT_THRESHOLD, donutUpvoterTotalReward, donutUpvoterRewards:{}, quadRankTotalReward, quadRankRewards:{}}
+const out = {label, startBlock: START_BLOCK, endBlock: END_BLOCK, govWeightThreshold: GOV_WEIGHT_THRESHOLD, donutUpvoterTotalReward, quadRankTotalReward}
 
 main()
 
@@ -25,6 +25,9 @@ async function main(){
   users = await getUsers()
   db = await setupDb()
   reddit = setupReddit()
+
+  const donutUpvoterRewards = {}
+  const quadRankRewards = {}
 
   let tips = db.chain.get("tips").filter(inRange).filter(isPost).map(addTipper).value()
   tips = await Promise.mapSeries(tips, addPost)
@@ -54,7 +57,7 @@ async function main(){
     }
   }
   for (const name in countByName){
-    out.donutUpvoterRewards[name] = Math.round(countByName[name]*donutUpvoterTotalReward/eligibleTipCount)
+    donutUpvoterRewards[name] = Math.round(countByName[name]*donutUpvoterTotalReward/eligibleTipCount)
   }
 
   let groupByContent = _.groupBy(tips, (t)=>t.contentId)
@@ -69,15 +72,12 @@ async function main(){
     quadScoreTotal += score
   }
   for (const author in quadScores){
-    out.quadRankRewards[author] = Math.round(quadScores[author]*quadRankTotalReward/quadScoreTotal)
+    quadRankRewards[author] = Math.round(quadScores[author]*quadRankTotalReward/quadScoreTotal)
   }
   // console.log(out)
+  out.rewards = Object.keys(donutUpvoterRewards).map(key => ({ username: key, points: donutUpvoterRewards[key], contributor_type: "donut_upvoter" }))
+  out.rewards = out.rewards.concat(Object.keys(quadRankRewards).map(key => ({ username: key, points: quadRankRewards[key], contributor_type: "quad_rank" })))
   fs.writeFileSync( `${__dirname}/docs/donut_upvote_rewards_${label}.json`, JSON.stringify(out))
-  out.donutUpvoterRewards = Object.keys(out.donutUpvoterRewards).map(key => ({ username: key, points: out.donutUpvoterRewards[key] }))
-  out.quadRankRewards = Object.keys(out.quadRankRewards).map(key => ({ username: key, points: out.quadRankRewards[key] }))
-  out.donutUpvoterRewards.sort((a,b)=>b.points-a.points)
-  out.quadRankRewards.sort((a,b)=>b.points-a.points)
-  fs.writeFileSync( `${__dirname}/out/donut_upvote_rewards_${label}_lists.json`, JSON.stringify(out))
 }
 
 function inRange({blockNumber}){
