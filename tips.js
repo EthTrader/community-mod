@@ -72,7 +72,7 @@ async function main(){
     out.quadRankRewards[author] = Math.round(quadScores[author]*quadRankTotalReward/quadScoreTotal)
   }
   // console.log(out)
-  fs.writeFileSync( `${__dirname}/out/donut_upvote_rewards_${label}.json`, JSON.stringify(out))
+  fs.writeFileSync( `${__dirname}/docs/donut_upvote_rewards_${label}.json`, JSON.stringify(out))
   out.donutUpvoterRewards = Object.keys(out.donutUpvoterRewards).map(key => ({ username: key, points: out.donutUpvoterRewards[key] }))
   out.quadRankRewards = Object.keys(out.quadRankRewards).map(key => ({ username: key, points: out.quadRankRewards[key] }))
   out.donutUpvoterRewards.sort((a,b)=>b.points-a.points)
