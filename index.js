@@ -71,7 +71,7 @@ async function saveTip(ev){
   db.data.tips.push(tip)
   db.data.block = tip.blockNumber
   await db.write()
-  await wait(2000)
+  await wait(5000)
 }
 
 function attachQuadScore(post){
