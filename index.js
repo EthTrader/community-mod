@@ -113,8 +113,12 @@ async function notify({id, blockNumber, from, to, amount, token, contentId}){
       break
   }
   if(target){
-    console.log(message)
-    await target.reply(message)
+    try {
+      console.log(message)
+      await target.reply(message)
+    } catch (e) {
+      console.log('cannot make tip notification, post is possibly too locked')
+    }
   }
 }
 
