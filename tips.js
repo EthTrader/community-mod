@@ -8,9 +8,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const GOV_WEIGHT_THRESHOLD=500
-const START_BLOCK=20195001
-const END_BLOCK=20675285
-const label = "round_107"
+const START_BLOCK=20675286
+const END_BLOCK=21150000
+const label = "round_108"
 
 let db, users, reddit
 
@@ -85,7 +85,7 @@ function inRange({blockNumber}){
 }
 
 async function invalidAccount(name){
-  await wait(1500)
+  await wait(2500)
   if(name == "[deleted]") return name
   let user
   try {
@@ -108,7 +108,7 @@ function addTipper(tip){
 }
 
 async function addPost(tip){
-  await wait(1500)
+  await wait(2000)
   console.log(tip.contentId)
   tip.post = await reddit.getSubmission(tip.contentId).fetch()
   return tip
