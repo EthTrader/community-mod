@@ -7,13 +7,14 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const ORIGIN = 1654722000      // this represenents the first Pay2Post period begining on 6/08/2022
+const ORIGIN = 1654722000      // this represenents the first FEE period begining on 6/08/2022
 
 const ROUND = 112
 const LABEL = `round_${ROUND}`
 const FILE = `${LABEL}.csv`
 const START = ORIGIN + (2419200 * (ROUND-112))
 const END = ORIGIN + (2419200 * (ROUND-111))
+const FEE = 250                                         // donut cost per post (PAY2POST)
 
 console.log(`${START}::::${END}`)
 
@@ -56,13 +57,18 @@ async function main(){
     }, {});
 
 
-    out.count = Object.entries(count).map(([key, value]) => ({ username: key, points: value}))
-    fs.writeFileSync( `${__dirname}/docs/pay2post_${LABEL}.json`, JSON.stringify(out))
+    out.count = Object.entries(count).map(([key, value]) => ({ username: key, points: value, donutFee: value * FEE}))
+    fs.writeFileSync( `${__dirname}/docs/FEE_${LABEL}.json`, JSON.stringify(out))
 
     console.log(out)
+
+    let total = 0;
+    for (const key in count) {
+        total += count[key]
+    }
+    console.log(`total posts in Round ${ROUND}: ${total}`)
   })
 }
-
 
 
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
