@@ -12,6 +12,7 @@ let db, users
 main()
 
 async function main(){
+
   users = await getUsers()
   db = await setupDb()
 
@@ -26,6 +27,7 @@ async function main(){
   setInterval(async ()=>{
     users = await getUsers()
   }, 24*60*60*1000)
+
 }
 
 async function scanNew(){
@@ -58,20 +60,52 @@ async function scanHot(){
 
 async function syncTips(){
   console.log("syncing tips")
-  const pastTips = await tipping.queryFilter("Tip", db.data.block+1)
-  // await Promise.all(pastTips.map(saveTip))
-  await Promise.mapSeries(pastTips, saveTip)
-  tipping.on("Tip", (from,to,amt,token,cid, ev)=>saveTip(ev))
+  const numTries = 5
+  let counter = ""
+  while (true) {
+    try {
+      const pastTips = await tipping.queryFilter("Tip", db.data.block+1)
+        // await Promise.all(pastTips.map(saveTip))
+      await Promise.mapSeries(pastTips, saveTip)
+      tipping.on("Tip", (from,to,amt,token,cid, ev)=>saveTip(ev))
+      return false
+    } catch (e) {
+      if(--numTries < 1) {
+        console.log("Giving Up")
+        throw e
+      } else {
+        counter = counter + "."
+        console.log(counter)
+        await wait(1000)
+      }
+    }
+  }
 }
 
 async function saveTip(ev){
-  const tip = marshalTip(ev)
-  await notify(tip)
-
-  db.data.tips.push(tip)
-  db.data.block = tip.blockNumber
-  await db.write()
-  await wait(5000)
+  const numTries = 5
+  let counter = ""
+  while (true) {
+    try {
+      const tip = marshalTip(ev)
+      await notify(tip)
+    
+      db.data.tips.push(tip)
+      db.data.block = tip.blockNumber
+      await db.write()
+      await wait(5000)
+      return false
+    } catch (e) {
+      if(--numTries < 1) {
+        console.log("Giving Up")
+        throw e
+      } else {
+        counter = counter + "."
+        console.log(counter)
+        await wait(1000)
+      }
+    }
+  }
 }
 
 function attachQuadScore(post){
@@ -117,7 +151,7 @@ async function notify({id, blockNumber, from, to, amount, token, contentId}){
       console.log(message)
       await target.reply(message)
     } catch (e) {
-      console.log('cannot make tip notification, post is possibly too locked')
+      console.log('cannot make tip notification, post is possibly locked')
     }
   }
 }
