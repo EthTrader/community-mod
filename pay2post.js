@@ -58,7 +58,7 @@ async function main(){
 
 
     out.count = Object.entries(count).map(([key, value]) => ({ username: key, points: value, donutFee: value * FEE}))
-    fs.writeFileSync( `${__dirname}/docs/FEE_${LABEL}.json`, JSON.stringify(out))
+    fs.writeFileSync( `${__dirname}/docs/pay2post_${LABEL}.json`, JSON.stringify(out))
 
     console.log(out)
 
