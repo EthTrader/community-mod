@@ -88,6 +88,12 @@ async function badFlair(post){
   console.log(`http://old.reddit.com${post.permalink} has bad flair`)
 }
 
+function onePostOnly(post){
+  const periodEnd = dayjs.utc(post.created_utc*1000)
+  const periodStart = dayjs.utc(post.created_utc*1000).subtract(24, 'h')
+  return
+}
+
 function isOverCutoff(post){
   const now = dayjs.utc()
   const graceHrs = getGraceHrs(post)
@@ -114,7 +120,7 @@ function getGraceHrs(post){
 function updateGraceHrs(posts, type){
   console.log(posts.length)
   let oldGraceHrs = graceHrs[type]
-  let newGraceHrs = 9 - posts.length
+  let newGraceHrs = 5 - posts.length
   if(newGraceHrs < 1) newGraceHrs = 1
   console.log(`change ${type} graceHrs from ${oldGraceHrs} to ${newGraceHrs}`)
   graceHrs[type] = newGraceHrs
@@ -123,4 +129,4 @@ function updateGraceHrs(posts, type){
 
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-export { wait, getUsers, setupContracts, setupReddit, setupDb, marshalTip, formatAmount, badFlair, isComedy, isMedia, isOverCutoff, instructionMessage, updateGraceHrs }
+export { wait, getUsers, setupContracts, setupReddit, setupDb, marshalTip, formatAmount, badFlair, isComedy, isMedia, isOverCutoff, instructionMessage, updateGraceHrs, onePostOnly }

@@ -1,5 +1,5 @@
 import Promise from "bluebird"
-import { wait, getUsers, setupReddit, setupDb, setupContracts, marshalTip, formatAmount, badFlair, isComedy, isMedia, isOverCutoff, instructionMessage, updateGraceHrs } from './utils.js'
+import { wait, getUsers, setupReddit, setupDb, setupContracts, marshalTip, formatAmount, badFlair, isComedy, isMedia, isOverCutoff, instructionMessage, updateGraceHrs, onePostOnly } from './utils.js'
 
 const { MINUTES_1, MINUTES_5, MINUTES_10 } = process.env
 
