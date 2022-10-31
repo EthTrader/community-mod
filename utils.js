@@ -114,7 +114,7 @@ function getGraceHrs(post){
 function updateGraceHrs(posts, type){
   console.log(posts.length)
   let oldGraceHrs = graceHrs[type]
-  let newGraceHrs = 9 - posts.length
+  let newGraceHrs = 5 - posts.length
   if(newGraceHrs < 1) newGraceHrs = 1
   console.log(`change ${type} graceHrs from ${oldGraceHrs} to ${newGraceHrs}`)
   graceHrs[type] = newGraceHrs
