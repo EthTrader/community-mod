@@ -60,7 +60,7 @@ async function scanHot(){
 
 async function syncTips(){
   console.log("syncing tips")
-  const numTries = 5
+  var numTries = 5
   let counter = ""
   while (true) {
     try {
@@ -72,10 +72,11 @@ async function syncTips(){
     } catch (e) {
       if(--numTries < 1) {
         console.log("Giving Up")
-        throw e
+        throw e.message
       } else {
-        counter = counter + "."
+        counter = counter + "+"
         console.log(counter)
+        console.log(e.message)
         await wait(1000)
       }
     }
@@ -83,30 +84,40 @@ async function syncTips(){
 }
 
 async function saveTip(ev){
-  const numTries = 5
-  let counter = ""
-  while (true) {
-    try {
-      const tip = marshalTip(ev)
-      await notify(tip)
-    
-      db.data.tips.push(tip)
-      db.data.block = tip.blockNumber
-      await db.write()
-      await wait(5000)
-      return false
-    } catch (e) {
-      if(--numTries < 1) {
-        console.log("Giving Up")
-        throw e
-      } else {
-        counter = counter + "."
-        console.log(counter)
-        await wait(1000)
-      }
-    }
-  }
+  const tip = marshalTip(ev)
+  await notify(tip)
+  db.data.tips.push(tip)
+  db.data.block = tip.blockNumber
+  await db.write()
+  await wait(5000)
 }
+
+
+// async function saveTip(ev){
+//   var numTries = 5
+//   let counter = ""
+//   while (true) {
+//     try {
+//       const tip = marshalTip(ev)
+//       await notify(tip)
+    
+//       db.data.tips.push(tip)
+//       db.data.block = tip.blockNumber
+//       await db.write()
+//       await wait(5000)
+//       return false
+//     } catch (e) {
+//       if(--numTries < 1) {
+//         console.log("Giving Up")
+//         throw e
+//       } else {
+//         counter = counter + "."
+//         console.log(counter)
+//         await wait(1000)
+//       }
+//     }
+//   }
+// }
 
 function attachQuadScore(post){
   post.quadScore = 0
@@ -139,9 +150,15 @@ async function notify({id, blockNumber, from, to, amount, token, contentId}){
       break
     default:
       let user = users.find(u=>u.address.toLowerCase()===from.toLowerCase())
+      console.log(user)
       if(user){
-        message = await getMessage(from, amount, id, token)
-        await reddit.composeMessage({to: user.username, subject: "You received a tip!", text: message})
+        try {
+          message = await getMessage(from, amount, id, token)
+          await reddit.composeMessage({to: user.username, subject: "You received a tip!", text: message})
+        }
+        catch (e) {
+          console.log(e.message)
+        }
       }
       console.log(`no content id, recipient is ${user ? user.username : "unknown"}`)
       break
