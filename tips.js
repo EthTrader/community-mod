@@ -8,9 +8,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const GOV_WEIGHT_THRESHOLD=500
-const START_BLOCK=26500001
-const END_BLOCK=26960000  //roughly 14,400 blocks per day
-const label = "round_121"
+const START_BLOCK=26960001
+const END_BLOCK=27410000  //roughly 14,400 blocks per day
+const label = "round_122"
 
 let db, users, reddit
 
