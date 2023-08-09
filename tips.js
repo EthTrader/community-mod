@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 
 const GOV_WEIGHT_THRESHOLD=500
 const START_BLOCK=28798001
-const END_BLOCK=29198000  //roughly 14,400 blocks per day
+const END_BLOCK=29273001  // +/- 475000 every distribution
 const label = "round_126"
 
 let db, users, reddit
