@@ -58,29 +58,38 @@ async function scanHot(){
   await Promise.mapSeries(toRemove, remove)
 }
 
+//async function syncTips(){
+//  console.log("syncing tips")
+//  var numTries = 5
+//  let counter = ""
+//  while (true) {
+//    try {
+//      const pastTips = await tipping.queryFilter("Tip", db.data.block+1)
+        // await Promise.all(pastTips.map(saveTip))
+//      await Promise.mapSeries(pastTips, saveTip)
+//      tipping.on("Tip", (from,to,amt,token,cid, ev)=>saveTip(ev))
+//      return false
+//    } catch (e) {
+//      if(--numTries < 1) {
+//        console.log("Giving Up")
+//        throw e.message
+//      } else {
+//        counter = counter + "+"
+//        console.log(counter)
+//        console.log(e.message)
+//        await wait(1000)
+//      }
+//    }
+//  }
+//}
+
 async function syncTips(){
   console.log("syncing tips")
   var numTries = 5
   let counter = ""
-  while (true) {
-    try {
-      const pastTips = await tipping.queryFilter("Tip", db.data.block+1)
-        // await Promise.all(pastTips.map(saveTip))
-      await Promise.mapSeries(pastTips, saveTip)
-      tipping.on("Tip", (from,to,amt,token,cid, ev)=>saveTip(ev))
-      return false
-    } catch (e) {
-      if(--numTries < 1) {
-        console.log("Giving Up")
-        throw e.message
-      } else {
-        counter = counter + "+"
-        console.log(counter)
-        console.log(e.message)
-        await wait(1000)
-      }
-    }
-  }
+  const pastTips = await tipping.queryFilter("Tip", db.data.block+1)
+  await Promise.mapSeries(pastTips, saveTip)
+  tipping.on("Tip", (from,to,amt,token,cid, ev)=>saveTip(ev))
 }
 
 async function saveTip(ev){
@@ -93,31 +102,6 @@ async function saveTip(ev){
 }
 
 
-// async function saveTip(ev){
-//   var numTries = 5
-//   let counter = ""
-//   while (true) {
-//     try {
-//       const tip = marshalTip(ev)
-//       await notify(tip)
-    
-//       db.data.tips.push(tip)
-//       db.data.block = tip.blockNumber
-//       await db.write()
-//       await wait(5000)
-//       return false
-//     } catch (e) {
-//       if(--numTries < 1) {
-//         console.log("Giving Up")
-//         throw e
-//       } else {
-//         counter = counter + "."
-//         console.log(counter)
-//         await wait(1000)
-//       }
-//     }
-//   }
-// }
 
 function attachQuadScore(post){
   post.quadScore = 0
