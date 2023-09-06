@@ -85,7 +85,7 @@ function inRange({blockNumber}){
 }
 
 async function invalidAccount(name){
-  await wait(2500)
+  await wait(1000)
   if(name == "[deleted]") return name
   let user
   try {
@@ -116,7 +116,7 @@ function addTipper(tip){
 
 async function addPost(tip){
   try {
-    await wait(2000)
+    await wait(1000)
     console.log(tip.contentId)
     tip.post = await reddit.getSubmission(tip.contentId).fetch()
     return tip
