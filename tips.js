@@ -107,15 +107,29 @@ function addTipper(tip){
   return tip
 }
 
+// async function addPost(tip){
+//   await wait(2000)
+//   console.log(tip.contentId)
+//   tip.post = await reddit.getSubmission(tip.contentId).fetch()
+//   return tip
+// }
+
 async function addPost(tip){
-  await wait(2000)
-  console.log(tip.contentId)
-  tip.post = await reddit.getSubmission(tip.contentId).fetch()
-  return tip
+  try {
+    await wait(2000)
+    console.log(tip.contentId)
+    tip.post = await reddit.getSubmission(tip.contentId).fetch()
+    return tip
+  } catch (error) {
+    console.error(`An error occurred in addPost: ${error.message}`);
+    return null
+  }
 }
 
-function isDonutUpvote({to, contentId, tipper, post}){
-  if(!tipper) return false
-  if(tipper.username == post.author.name) return false
-  return parseInt(tipper.weight) >= GOV_WEIGHT_THRESHOLD
-}
+// function isDonutUpvote({to, contentId, tipper, post}){
+//   if(!tipper) return false
+//   if(tipper.username == post.author.name) return false
+//   return parseInt(tipper.weight) >= GOV_WEIGHT_THRESHOLD
+// }
+
+
