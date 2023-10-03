@@ -8,9 +8,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const GOV_WEIGHT_THRESHOLD=500
-const START_BLOCK=29273002
-const END_BLOCK=29748000  // +/- 475000 every distribution
-const label = "round_127"
+const START_BLOCK=29748001
+const END_BLOCK=30223000  // +/- 475000 every distribution
+const label = "round_128"
 
 let db, users, reddit
 
