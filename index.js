@@ -174,16 +174,18 @@ async function getInstructionId(post){
 
 async function addInstruction(post){
   const message = instructionMessage(post)
-  try {
-    const reply = await post.reply(message)
-    console.log(`added instruction to http://old.reddit.com${post.permalink}`)
-    db.data.instructions.push({postId: post.id, commentId: reply.id})
-    await db.write()
-    await reply.distinguish({status: true, sticky: true})
-    await wait(2000)
-    return reply.id
-  } catch(e){
-    console.log(`error posting instruction for http://old.reddit.com${post.permalink}`)
+  if (post.author.name != "AutoModerator" ){
+    try {
+      const reply = await post.reply(message)
+      console.log(`added instruction to http://old.reddit.com${post.permalink}`)
+      db.data.instructions.push({postId: post.id, commentId: reply.id})
+      await db.write()
+      await reply.distinguish({status: true, sticky: true})
+      await wait(2000)
+      return reply.id
+    } catch(e){
+      console.log(`error posting instruction for http://old.reddit.com${post.permalink}`)
+    }
   }
 }
 
@@ -191,15 +193,17 @@ async function updateInstruction(post){
   const message = instructionMessage(post)
   let instructionId = await getInstructionId(post)
   if(!instructionId) instructionId = await addInstruction(post)
-  try {
-    const instruction = await reddit.getComment(instructionId).fetch()
-    if(instruction.body !== message){
-      await instruction.edit(message)
-      console.log(`updated instruction http://old.reddit.com${post.permalink}${instructionId}`)
-      await wait(4000)
+  if (post.author.name != "AutoModerator" ){
+    try {
+      const instruction = await reddit.getComment(instructionId).fetch()
+      if(instruction.body !== message){
+        await instruction.edit(message)
+        console.log(`updated instruction http://old.reddit.com${post.permalink}${instructionId}`)
+        await wait(4000)
+      }
+    } catch(e){
+      console.log(`error updating instruction http://old.reddit.com${post.permalink}${instructionId}:\n${e.toString().slice(0, 50)}`)
     }
-  } catch(e){
-    console.log(`error updating instruction http://old.reddit.com${post.permalink}${instructionId}:\n${e.toString().slice(0, 50)}`)
   }
 }
 
