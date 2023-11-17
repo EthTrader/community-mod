@@ -14,8 +14,8 @@ const label = "round_129"
 
 let db, users, reddit
 
-const donutUpvoterTotalReward = 340000
-const quadRankTotalReward = 680000
+const donutUpvoterTotalReward = 170000
+const quadRankTotalReward = 340000
 
 const out = {label, startBlock: START_BLOCK, endBlock: END_BLOCK, govWeightThreshold: GOV_WEIGHT_THRESHOLD, donutUpvoterTotalReward, quadRankTotalReward}
 
