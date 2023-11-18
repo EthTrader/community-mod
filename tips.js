@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const GOV_WEIGHT_THRESHOLD=500
-const START_BLOCK=30223000
+const START_BLOCK=30223001
 const END_BLOCK=30732100  // +/- 475000 every distribution
 const label = "round_129"
 
@@ -47,7 +47,7 @@ async function main(){
     if(!names.includes(name)) names.push(name)
   })
   console.log(`names: ${names.length}`)
-  const ineligbleNames = await Promise.mapSeries(names, invalidAccount)
+  const ineligbleNames = (await Promise.mapSeries(names, invalidAccount)).filter(n=>n)
   console.log(`ineligble names: ${ineligbleNames.join(', ')}`)
 
   for (const name in countByName){
@@ -91,8 +91,8 @@ async function invalidAccount(name){
   try {
     console.log(`checking ${name}`)
     user = await reddit.getUser(name).fetch()
-  } catch(e){
-    console.log(e)
+  } catch(error){
+    console.error(`An error checking ${name}: ${error.message}`)
   }
   if(!user || user.is_suspended) return name
   else return null
