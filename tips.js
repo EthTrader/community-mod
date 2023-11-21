@@ -133,7 +133,9 @@ async function addPost(tip){
 // }
 
 
-function isDonutUpvote({to, contentId, tipper, post}){
+function isDonutUpvote(tip){
+  if(!tip) return false
+  let {to, contentId, tipper, post} = tip
   if(!tipper || !post) return false
   if(tipper.username == post.author.name) return false
   return parseInt(tipper.weight) >= GOV_WEIGHT_THRESHOLD
