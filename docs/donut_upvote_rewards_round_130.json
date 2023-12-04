@@ -1,0 +1,1520 @@
+{
+    "label": "round_130",
+    "startBlock": 30732101,
+    "endBlock": 31207100,
+    "govWeightThreshold": 500,
+    "donutUpvoterTotalReward": 170000,
+    "quadRankTotalReward": 340000,
+    "rewards": [
+        {
+            "username": "kirtash93",
+            "points": 6071,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "pythonskynet",
+            "points": 8548,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Every_Hunt_160",
+            "points": 7110,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "TheNano100",
+            "points": 7430,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Buzzalu",
+            "points": 10545,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "rootpl",
+            "points": 3515,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Sharp-Subject-047",
+            "points": 4234,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "yester_philippines",
+            "points": 320,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "mattg1981",
+            "points": 559,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Lokiee0077",
+            "points": 4554,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "reddito321",
+            "points": 80,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Prog132487",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "tambaybtc",
+            "points": 5752,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "illbeback_69",
+            "points": 3116,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Electrical_Tension",
+            "points": 3116,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Icy-Profile-1655",
+            "points": 10305,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Lillica_Golden_SHIB",
+            "points": 9586,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Fredzoor",
+            "points": 8628,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Ben_Pars",
+            "points": 7430,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "OldDomainer",
+            "points": 8788,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "actuatorsif5",
+            "points": 9107,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Friendly-Airline2426",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "aminok",
+            "points": 879,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Sky-876",
+            "points": 5273,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "HarryDotter420",
+            "points": 1997,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Elon_mkus",
+            "points": 1837,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Gubbie99",
+            "points": 479,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "ASingleGuitarString",
+            "points": 1358,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "KompolNakBroMek",
+            "points": 80,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Honey_-_Badger",
+            "points": 4953,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "boiboi3434",
+            "points": 639,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "garysei124",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Pxtxr",
+            "points": 3835,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "dead-spiral",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "MrDexterX",
+            "points": 1837,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "goldyluckinblokchain",
+            "points": 559,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "FattestLion",
+            "points": 3036,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Sunryzen",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "rare1994",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "eat-sleep-rave",
+            "points": 2077,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "abcoathup",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Samir2298",
+            "points": 2636,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "SwingContent6806",
+            "points": 639,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "ReitHodlr",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "proandromeda",
+            "points": 320,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "MonitorFlat229",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "letsridetheworld",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "pizzapicnic",
+            "points": 80,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Downtown_Yam9137",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "GreekGod0007",
+            "points": 639,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "good2youall",
+            "points": 1917,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Eth_Man",
+            "points": 639,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Fritz1818",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "dont_agree_with_me",
+            "points": 1278,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "rikbona",
+            "points": 879,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "ethereum88",
+            "points": 1598,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Wrong-Spirit-391",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "TheOneWhoCared",
+            "points": 1518,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Visible-Ad743",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Easy-Soup140",
+            "points": 479,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Ben_Dover1234",
+            "points": 1039,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "SarcasticSamurai619",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Defiboy",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Nabzzzzz00",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "bvandepol",
+            "points": 1039,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "CreepToeCurrentSea",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "DBRiMatt",
+            "points": 639,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Kindly-Wolf6919",
+            "points": 559,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "economist_kinda",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "MrPuma86",
+            "points": 1358,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Agent_4--7",
+            "points": 959,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "bzzking",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "teeceaustralia",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "cryptopunk661",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "SuperbCantaloupe1929",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "MrGodzilla166",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "crayontastegood",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Fiddlers-list",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "carlslarson",
+            "points": 160,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "dtol2020",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Guldrion",
+            "points": 719,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "JETTTZOR",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Albinonite",
+            "points": 479,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "feric89",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "raymv1987",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "wen_eip",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Desperate_Channel_62",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "cryptbunks",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Apart_Ad2669",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "002_timmy",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "raresanevoice",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Gorbachev_",
+            "points": 80,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "InsaneMcFries",
+            "points": 160,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "ShadowKnight324",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Wrench555",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "RealLeoPat",
+            "points": 160,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "NSFWCryptoPosting",
+            "points": 160,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Americanstandard",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "toogoodtgp",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "eonesimoszsss",
+            "points": 160,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "CrispyDonutBot",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "lordciders",
+            "points": 80,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "im_just_kidding_bruh",
+            "points": 160,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "telejoshi",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Allions1",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "The_Nutcrack",
+            "points": 320,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "PeacockMamba",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "wmredditor",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Technical-Track2663",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Dapper-Horror3112",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Nyarlatotep781",
+            "points": 240,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "foreignGER",
+            "points": 240,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Malixshak",
+            "points": 240,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "cajunrajing",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "topcontender",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "DinoCoiner",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Good_Extension_9642",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "PublicSleeper",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "diarpiiiii",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "F-machine",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "83nno",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "trustnodes",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "HAIKUuu",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Security_Raven",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Carretje",
+            "points": 160,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "SoulUrgeDestiny",
+            "points": 240,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "ImperialSoldiers",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Goonzoo",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "thecryptos",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Clash_onthe_Can",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "PirateSKB",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Odlavso",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Traveler-0854",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "MasterpieceLoud4931",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Basoosh",
+            "points": 80,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "lucashcy_97",
+            "points": 80,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Ok_Election7896",
+            "points": 80,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Atorcran",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "buzzalu",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "ellileon",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "pc1e0",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "tahiraslam8k",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "MrPuffer23",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Odd-Radio-8500",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "ProfBullishChad",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "anotheralien22",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "MichaelAischmann",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "emyfsh201",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "doctorwho_cares",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Pibo1987",
+            "points": 0,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "Jake123194",
+            "points": 160,
+            "contributor_type": "donut_upvoter"
+        },
+        {
+            "username": "kirtash93",
+            "points": 30500,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "pythonskynet",
+            "points": 20345,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Every_Hunt_160",
+            "points": 17092,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "TheNano100",
+            "points": 16476,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Buzzalu",
+            "points": 12798,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "rootpl",
+            "points": 15632,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Sharp-Subject-047",
+            "points": 14228,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "yester_philippines",
+            "points": 15307,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "mattg1981",
+            "points": 14002,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Lokiee0077",
+            "points": 10398,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "reddito321",
+            "points": 11721,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Prog132487",
+            "points": 11313,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "tambaybtc",
+            "points": 5277,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "illbeback_69",
+            "points": 7897,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Electrical_Tension",
+            "points": 7508,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Icy-Profile-1655",
+            "points": 24,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Lillica_Golden_SHIB",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Fredzoor",
+            "points": 941,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Ben_Pars",
+            "points": 1867,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "OldDomainer",
+            "points": 457,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "actuatorsif5",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Friendly-Airline2426",
+            "points": 8543,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "aminok",
+            "points": 7661,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Sky-876",
+            "points": 2940,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "HarryDotter420",
+            "points": 5695,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Elon_mkus",
+            "points": 5190,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Gubbie99",
+            "points": 5335,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "ASingleGuitarString",
+            "points": 4209,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "KompolNakBroMek",
+            "points": 5241,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Honey_-_Badger",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "boiboi3434",
+            "points": 4229,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "garysei124",
+            "points": 4440,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Pxtxr",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "dead-spiral",
+            "points": 3715,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "MrDexterX",
+            "points": 1641,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "goldyluckinblokchain",
+            "points": 2854,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "FattestLion",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Sunryzen",
+            "points": 2899,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "rare1994",
+            "points": 2901,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "eat-sleep-rave",
+            "points": 690,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "abcoathup",
+            "points": 2634,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Samir2298",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "SwingContent6806",
+            "points": 1913,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "ReitHodlr",
+            "points": 2435,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "proandromeda",
+            "points": 2086,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "MonitorFlat229",
+            "points": 2358,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "letsridetheworld",
+            "points": 2350,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "pizzapicnic",
+            "points": 2265,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Downtown_Yam9137",
+            "points": 2271,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "GreekGod0007",
+            "points": 1555,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "good2youall",
+            "points": 292,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Eth_Man",
+            "points": 1264,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Fritz1818",
+            "points": 1849,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "dont_agree_with_me",
+            "points": 412,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "rikbona",
+            "points": 754,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "ethereum88",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Wrong-Spirit-391",
+            "points": 1595,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "TheOneWhoCared",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Visible-Ad743",
+            "points": 1461,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Easy-Soup140",
+            "points": 975,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Ben_Dover1234",
+            "points": 489,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "SarcasticSamurai619",
+            "points": 1416,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Defiboy",
+            "points": 1312,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Nabzzzzz00",
+            "points": 1285,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "bvandepol",
+            "points": 252,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "CreepToeCurrentSea",
+            "points": 1124,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "DBRiMatt",
+            "points": 495,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Kindly-Wolf6919",
+            "points": 557,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "economist_kinda",
+            "points": 1094,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "MrPuma86",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Agent_4--7",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "bzzking",
+            "points": 938,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "teeceaustralia",
+            "points": 925,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "cryptopunk661",
+            "points": 908,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "SuperbCantaloupe1929",
+            "points": 864,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "MrGodzilla166",
+            "points": 870,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "crayontastegood",
+            "points": 841,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Fiddlers-list",
+            "points": 743,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "carlslarson",
+            "points": 563,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "dtol2020",
+            "points": 714,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Guldrion",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "JETTTZOR",
+            "points": 689,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Albinonite",
+            "points": 199,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "feric89",
+            "points": 664,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "raymv1987",
+            "points": 630,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "wen_eip",
+            "points": 621,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Desperate_Channel_62",
+            "points": 621,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "cryptbunks",
+            "points": 580,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Apart_Ad2669",
+            "points": 522,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "002_timmy",
+            "points": 510,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "raresanevoice",
+            "points": 497,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Gorbachev_",
+            "points": 390,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "InsaneMcFries",
+            "points": 295,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "ShadowKnight324",
+            "points": 425,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Wrench555",
+            "points": 413,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "RealLeoPat",
+            "points": 253,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "NSFWCryptoPosting",
+            "points": 240,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Americanstandard",
+            "points": 395,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "toogoodtgp",
+            "points": 387,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "eonesimoszsss",
+            "points": 222,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "CrispyDonutBot",
+            "points": 371,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "lordciders",
+            "points": 274,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "im_just_kidding_bruh",
+            "points": 187,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "telejoshi",
+            "points": 330,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Allions1",
+            "points": 326,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "The_Nutcrack",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "PeacockMamba",
+            "points": 303,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "wmredditor",
+            "points": 295,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Technical-Track2663",
+            "points": 274,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Dapper-Horror3112",
+            "points": 274,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Nyarlatotep781",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "foreignGER",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Malixshak",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "cajunrajing",
+            "points": 215,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "topcontender",
+            "points": 200,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "DinoCoiner",
+            "points": 189,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Good_Extension_9642",
+            "points": 176,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "PublicSleeper",
+            "points": 172,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "diarpiiiii",
+            "points": 164,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "F-machine",
+            "points": 151,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "83nno",
+            "points": 151,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "trustnodes",
+            "points": 151,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "HAIKUuu",
+            "points": 151,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Security_Raven",
+            "points": 151,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Carretje",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "SoulUrgeDestiny",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "ImperialSoldiers",
+            "points": 127,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Goonzoo",
+            "points": 122,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "thecryptos",
+            "points": 120,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Clash_onthe_Can",
+            "points": 120,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "PirateSKB",
+            "points": 120,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Odlavso",
+            "points": 109,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Traveler-0854",
+            "points": 112,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "MasterpieceLoud4931",
+            "points": 101,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Basoosh",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "lucashcy_97",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Ok_Election7896",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Atorcran",
+            "points": 65,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "buzzalu",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "ellileon",
+            "points": 44,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "pc1e0",
+            "points": 40,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "tahiraslam8k",
+            "points": 39,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "MrPuffer23",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Odd-Radio-8500",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "ProfBullishChad",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "anotheralien22",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "MichaelAischmann",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "emyfsh201",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "doctorwho_cares",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Pibo1987",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        },
+        {
+            "username": "Jake123194",
+            "points": 0,
+            "contributor_type": "quad_rank"
+        }
+    ]
+}
